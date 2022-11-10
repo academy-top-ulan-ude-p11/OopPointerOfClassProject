@@ -40,7 +40,7 @@ protected:
 public:
     Car() : Car("", 0) {}
     Car(string title, int speed) : Transport(title), speed{ speed } {};
-    string Infa()
+    string Info() override
     {
         return "car " + title + " speed = " + to_string(speed);
     }
