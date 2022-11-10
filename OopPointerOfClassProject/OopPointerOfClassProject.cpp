@@ -1,4 +1,5 @@
 ﻿#include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -26,21 +27,32 @@ protected:
     string title;
 public:
     Transport(string title = "") : title{title} {}
-    void Info()
+    virtual string Info()
     {
-        cout << "transport " << title << "\n";
+        return "transport " + title;
     }
 };
 
 class Car : public Transport
 {
+protected:
     int speed;
 public:
     Car() : Car("", 0) {}
     Car(string title, int speed) : Transport(title), speed{ speed } {};
-    void Info()
+    string Infa()
     {
-        cout << "car " << title << " speed = " << speed << "\n";
+        return "car " + title + " speed = " + to_string(speed);
+    }
+};
+
+class Bus : public Car
+{
+public:
+    Bus(string title, int speed) : Car(title, speed) {};
+    string Info() override
+    {
+        return "bus " + title + " speed = " + to_string(speed);
     }
 };
 
@@ -50,9 +62,9 @@ class Airplane : public Transport
 public:
     Airplane() : Airplane("", 0) {}
     Airplane(string title, int heigth) : Transport(title), heigth{ heigth } {};
-    void Info()
+    string Info() override
     {
-        cout << "Airplane " << title << " heigth = " << heigth << "\n";
+        return "Airplane " + title + " heigth = " + to_string(heigth);
     }
 };
 
@@ -62,9 +74,9 @@ class Ship : public Transport
 public:
     Ship() : Ship("", false) {}
     Ship(string title, bool pass) : Transport(title), pass{ pass } {};
-    void Info()
+    string Info() override
     {
-        cout << "Ship " << title << " pass = " << pass << "\n";
+        return "Ship " + title + " pass = " + to_string(pass);
     }
 };
 
@@ -74,25 +86,24 @@ int main()
     Child* child = new Child();
     Parent* parentChild = new Child();*/
 
-    Transport transports[4];
-    Transport trans("Transport");
-    Car car("Bmv", 200);
-    Airplane airplane("SuperJet", 10000);
-    Ship ship("Titanic", true);
+    Transport** transports = new Transport*[5];
+
+    Transport* trans = new Transport("Transport");
+    Car* car = new Car("Bmv", 200);
+    Airplane* airplane = new Airplane("SuperJet", 10000);
+    Ship* ship = new Ship("Titanic", true);
+    Bus* bus = new Bus("Gazel", 80);
 
     transports[0] = car;
     transports[1] = airplane;
     transports[2] = ship;
     transports[3] = trans;
+    transports[4] = bus;
 
-    /*for (int i = 0; i < 4; i++)
+
+    for (int i = 0; i < 5; i++)
     {
-        transports[i].Info();
-    }*/
-
-    Transport* t = new Transport("Transport Wow");
-    t->Info();
-    t = new Car("Mercedes", 250);
-    t->Info();
-
+        cout << transports[i]->Info() << "\n";
+    }
+    
 }
